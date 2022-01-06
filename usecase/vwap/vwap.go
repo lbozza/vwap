@@ -34,7 +34,7 @@ func NewVwapCalculator() *DataPointList {
 func (l *DataPointList) Calculate(d DataPoint) string {
 
 	oldestPrice, oldestVolume := new(big.Float), new(big.Float)
-	if len(l.DataPoints) > maxDataPointSize {
+	if len(l.DataPoints) >= maxDataPointSize {
 		oldestPrice, oldestVolume = l.getOldestPriceAndVolume(d)
 	}
 

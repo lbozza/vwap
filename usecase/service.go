@@ -43,13 +43,9 @@ func (s *Service) Execute() {
 			ProductID: data.ProductID,
 		})
 
-		fmt.Println("PRODUCT: ", data.ProductID, "PRECO: ", data.Price, "VOL: ", volume)
 		fmt.Printf("VWAP Calculated for %s is %v", data.ProductID, vwapValue)
 		fmt.Println("")
 
-		// fmt.Println(list.DataPoints)
-
-		//fmt.Println(data)
 	}
 
 }

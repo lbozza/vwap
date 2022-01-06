@@ -19,7 +19,6 @@ type Handler struct {
 }
 
 func main() {
-	print("Hello WORLD")
 
 	ctx := context.Background()
 	wg := &sync.WaitGroup{}
@@ -33,7 +32,17 @@ func main() {
 		print(err)
 	}
 
-	//err = initialize(ctx, address, "ETH-USD", wg)
+	errEthUsd := initialize(ctx, address, "ETH-USD", wg)
+
+	if errEthUsd != nil {
+		print(err)
+	}
+
+	errEthBtc := initialize(ctx, address, "ETH-BTC", wg)
+
+	if errEthBtc != nil {
+		print(err)
+	}
 
 	for {
 		select {
