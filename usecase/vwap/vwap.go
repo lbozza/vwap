@@ -59,10 +59,6 @@ func (l *DataPointList) Calculate(d DataPoint) string {
 	vwapCalculated := new(big.Float)
 	vwapCalculated.Quo(l.SumVolumeAndPrice, l.SumVolume)
 
-	// fmt.Println("PRODUCT: ", d.ProductID, "PRECO: ", d.Price, "VOL: ", d.Volume)
-	// fmt.Printf("VWAP Calculated for %s is %v", d.ProductID, vwapCalculated)
-	// fmt.Println("")
-
 	l.DataPoints = append(l.DataPoints, d)
 
 	return vwapCalculated.String()

@@ -26,19 +26,19 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	err := initialize(ctx, address, "BTC-USD", wg)
+	err := initialize(ctx, address, entity.BTCUSD, wg)
 
 	if err != nil {
 		print(err)
 	}
 
-	errEthUsd := initialize(ctx, address, "ETH-USD", wg)
+	errEthUsd := initialize(ctx, address, entity.ETHUSD, wg)
 
 	if errEthUsd != nil {
 		print(err)
 	}
 
-	errEthBtc := initialize(ctx, address, "ETH-BTC", wg)
+	errEthBtc := initialize(ctx, address, entity.ETHBTC, wg)
 
 	if errEthBtc != nil {
 		print(err)
