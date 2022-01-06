@@ -14,6 +14,10 @@ import (
 
 const address string = "wss://ws-feed.exchange.coinbase.com"
 
+type Handler struct {
+	infra.ClientHandler
+}
+
 func main() {
 	print("Hello WORLD")
 
@@ -44,6 +48,7 @@ func main() {
 
 func initialize(ctx context.Context, address string, pair string, wg *sync.WaitGroup) (err error) {
 	client, err := infra.NewClient(address)
+	handler := Handler{&client}
 
 	wg.Add(1)
 
@@ -55,7 +60,7 @@ func initialize(ctx context.Context, address string, pair string, wg *sync.WaitG
 	tradeChannel := make(chan entity.ResponseInternal)
 	service := usecase.NewService(tradeChannel, pair, *vwapCalc)
 
-	go client.Subscribe(ctx, []string{pair}, tradeChannel)
+	go handler.Subscribe(ctx, []string{pair}, tradeChannel)
 	go service.Execute()
 
 	return

@@ -35,11 +35,11 @@ type Response struct {
 	ProductID string    `json:"product_id"`
 }
 
-type CliHandler struct {
+type Client struct {
 	conn *websocket.Conn
 }
 
-func NewClient(address string) (CliHandler, error) {
+func NewClient(address string) (Client, error) {
 	conn, err := websocket.Dial(address, "", "http://localhost")
 
 	if err != nil {
@@ -47,13 +47,13 @@ func NewClient(address string) (CliHandler, error) {
 		os.Exit(1)
 	}
 
-	return CliHandler{
+	return Client{
 		conn: conn,
 	}, nil
 
 }
 
-func (c *CliHandler) Subscribe(ctx context.Context, pairs []string, channel chan entity.ResponseInternal) error {
+func (c *Client) Subscribe(ctx context.Context, pairs []string, channel chan entity.ResponseInternal) error {
 
 	subscription := Request{
 		Type:       "subscribe",
