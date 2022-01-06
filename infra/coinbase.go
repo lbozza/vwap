@@ -51,7 +51,7 @@ func NewClient() (Client, error) {
 
 }
 
-func (c *Client) Subscribe(ctx context.Context, pairs []string, tradeChannel chan entity.ResponseInternal) error {
+func (c *Client) Subscribe(ctx context.Context, pairs []string, tradeChannel chan entity.ResponseInternal, fatalErrors chan error) {
 
 	subscription := request{
 		Type:       "subscribe",
@@ -66,7 +66,7 @@ func (c *Client) Subscribe(ctx context.Context, pairs []string, tradeChannel cha
 	err := websocket.Message.Send(c.conn, payload)
 
 	if err != nil {
-		return err
+		fatalErrors <- err
 	}
 
 	var response entity.ResponseInternal
@@ -75,7 +75,6 @@ func (c *Client) Subscribe(ctx context.Context, pairs []string, tradeChannel cha
 
 	go readClientMessage(ctx, c.conn, tradeChannel)
 
-	return nil
 }
 
 func readClientMessage(ctx context.Context, conn *websocket.Conn, incomingMessages chan entity.ResponseInternal) {

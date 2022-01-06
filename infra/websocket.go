@@ -7,5 +7,5 @@ import (
 )
 
 type ClientHandler interface {
-	Subscribe(ctx context.Context, pairs []string, channel chan entity.ResponseInternal) error
+	Subscribe(ctx context.Context, pairs []string, channel chan entity.ResponseInternal, fatalErrors chan error)
 }

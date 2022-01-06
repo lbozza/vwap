@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	"os"
 	"os/signal"
 	"sync"
@@ -20,6 +21,7 @@ type Handler struct {
 var pairList = []string{entity.BTCUSD, entity.ETHUSD, entity.ETHBTC}
 
 func main() {
+	fatalErrors := make(chan error)
 
 	ctx := context.Background()
 	wg := &sync.WaitGroup{}
@@ -28,7 +30,7 @@ func main() {
 	signal.Notify(interrupt, os.Interrupt)
 
 	for _, pair := range pairList {
-		err := initialize(ctx, pair, wg)
+		err := initialize(ctx, pair, wg, fatalErrors)
 
 		if err != nil {
 			errors.Wrap(err, "Error to Initialize VWAP Calculator for : "+pair)
@@ -40,13 +42,15 @@ func main() {
 		case <-interrupt:
 			shutdown(wg)
 			return
-
+		case err := <-fatalErrors:
+			close(fatalErrors)
+			log.Fatal("Error: ", err)
 		}
 	}
 
 }
 
-func initialize(ctx context.Context, pair string, wg *sync.WaitGroup) (err error) {
+func initialize(ctx context.Context, pair string, wg *sync.WaitGroup, fatalErrors chan error) (err error) {
 	client, err := infra.NewClient()
 	handler := Handler{&client}
 
@@ -60,7 +64,7 @@ func initialize(ctx context.Context, pair string, wg *sync.WaitGroup) (err error
 	tradeChannel := make(chan entity.ResponseInternal)
 	service := usecase.NewService(tradeChannel, pair, *vwapCalc)
 
-	go handler.Subscribe(ctx, []string{pair}, tradeChannel)
+	go handler.Subscribe(ctx, []string{pair}, tradeChannel, fatalErrors)
 	go service.Execute()
 
 	return
