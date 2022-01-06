@@ -12,7 +12,7 @@ type DataPoint struct {
 	Volume    *big.Float
 }
 
-type DataPointList struct {
+type Calculator struct {
 	DataPoints        []DataPoint
 	SumVolumeAndPrice *big.Float
 	SumVolume         *big.Float
@@ -20,8 +20,8 @@ type DataPointList struct {
 	MaxSize           int
 }
 
-func NewVwapCalculator() *DataPointList {
-	return &DataPointList{
+func NewVwapCalculator() *Calculator {
+	return &Calculator{
 		DataPoints:        []DataPoint{},
 		SumVolumeAndPrice: new(big.Float),
 		SumVolume:         new(big.Float),
@@ -31,7 +31,7 @@ func NewVwapCalculator() *DataPointList {
 
 }
 
-func (l *DataPointList) Calculate(d DataPoint) string {
+func (l *Calculator) Calculate(d DataPoint) string {
 	l.DataPoints = append(l.DataPoints, d)
 
 	oldestPrice, oldestVolume := new(big.Float), new(big.Float)
@@ -64,7 +64,7 @@ func (l *DataPointList) Calculate(d DataPoint) string {
 
 }
 
-func (l *DataPointList) getOldestPriceAndVolume(d DataPoint) (oldestPrice, oldestVolume *big.Float) {
+func (l *Calculator) getOldestPriceAndVolume(d DataPoint) (oldestPrice, oldestVolume *big.Float) {
 
 	oldest := l.DataPoints[0]
 	l.DataPoints = l.DataPoints[1:]
