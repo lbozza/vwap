@@ -147,10 +147,6 @@ func (l *DataPointList) Calculate(d DataPoint) string <span class="cov8" title="
         <span class="cov8" title="1">vwapCalculated := new(big.Float)
         vwapCalculated.Quo(l.SumVolumeAndPrice, l.SumVolume)
 
-        // fmt.Println("PRODUCT: ", d.ProductID, "PRECO: ", d.Price, "VOL: ", d.Volume)
-        // fmt.Printf("VWAP Calculated for %s is %v", d.ProductID, vwapCalculated)
-        // fmt.Println("")
-
         l.DataPoints = append(l.DataPoints, d)
 
         return vwapCalculated.String()</span>
@@ -163,10 +159,7 @@ func (l *DataPointList) getOldestPriceAndVolume(d DataPoint) (oldestPrice, oldes
                 l.Position = 0
         }</span>
 
-        //        fmt.Println("Index is: ", l.Position)
         <span class="cov0" title="0">oldest := l.DataPoints[l.Position]
-        //        fmt.Println("OLDEST IS: ", oldest)
-        //        fmt.Println("NEW TRADE IS: ", d)
 
         if &amp;oldest != nil </span><span class="cov0" title="0">{
                 oldestPrice, oldestVolume = oldest.Price, oldest.Volume

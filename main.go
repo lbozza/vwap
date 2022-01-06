@@ -10,13 +10,14 @@ import (
 	"github.com/lbozza/vwap/infra"
 	usecase "github.com/lbozza/vwap/usecase"
 	"github.com/lbozza/vwap/usecase/vwap"
+	"github.com/pkg/errors"
 )
-
-const address string = "wss://ws-feed.exchange.coinbase.com"
 
 type Handler struct {
 	infra.ClientHandler
 }
+
+var pairList = []string{entity.BTCUSD, entity.ETHUSD, entity.ETHBTC}
 
 func main() {
 
@@ -26,22 +27,12 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	err := initialize(ctx, address, entity.BTCUSD, wg)
+	for _, pair := range pairList {
+		err := initialize(ctx, pair, wg)
 
-	if err != nil {
-		print(err)
-	}
-
-	errEthUsd := initialize(ctx, address, entity.ETHUSD, wg)
-
-	if errEthUsd != nil {
-		print(err)
-	}
-
-	errEthBtc := initialize(ctx, address, entity.ETHBTC, wg)
-
-	if errEthBtc != nil {
-		print(err)
+		if err != nil {
+			errors.Wrap(err, "Error to Initialize VWAP Calculator for : "+pair)
+		}
 	}
 
 	for {
@@ -55,14 +46,14 @@ func main() {
 
 }
 
-func initialize(ctx context.Context, address string, pair string, wg *sync.WaitGroup) (err error) {
-	client, err := infra.NewClient(address)
+func initialize(ctx context.Context, pair string, wg *sync.WaitGroup) (err error) {
+	client, err := infra.NewClient()
 	handler := Handler{&client}
 
 	wg.Add(1)
 
 	if err != nil {
-		print(err)
+		return err
 	}
 
 	vwapCalc := vwap.NewVwapCalculator()

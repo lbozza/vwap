@@ -11,24 +11,22 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-type ClientHandler interface {
-	Subscribe(ctx context.Context, pairs []string, channel chan entity.ResponseInternal) error
-}
+const address string = "wss://ws-feed.exchange.coinbase.com"
 
-type Request struct {
+type request struct {
 	Type       string    `json:"type"`
 	ProductIDs []string  `json:"product_ids"`
-	Channels   []Channel `json:"channels"`
+	Channels   []channel `json:"channels"`
 }
 
-type Channel struct {
+type channel struct {
 	Name       string
 	ProductIDs []string
 }
 
-type Response struct {
+type response struct {
 	Type      string    `json:"type"`
-	Channels  []Channel `json:"channels"`
+	Channels  []channel `json:"channels"`
 	Message   string    `json:"message,omitempty"`
 	Size      string    `json:"size"`
 	Price     string    `json:"price"`
@@ -39,7 +37,7 @@ type Client struct {
 	conn *websocket.Conn
 }
 
-func NewClient(address string) (Client, error) {
+func NewClient() (Client, error) {
 	conn, err := websocket.Dial(address, "", "http://localhost")
 
 	if err != nil {
@@ -53,12 +51,12 @@ func NewClient(address string) (Client, error) {
 
 }
 
-func (c *Client) Subscribe(ctx context.Context, pairs []string, channel chan entity.ResponseInternal) error {
+func (c *Client) Subscribe(ctx context.Context, pairs []string, tradeChannel chan entity.ResponseInternal) error {
 
-	subscription := Request{
+	subscription := request{
 		Type:       "subscribe",
 		ProductIDs: pairs,
-		Channels: []Channel{
+		Channels: []channel{
 			{Name: "matches"},
 		},
 	}
@@ -68,14 +66,14 @@ func (c *Client) Subscribe(ctx context.Context, pairs []string, channel chan ent
 	err := websocket.Message.Send(c.conn, payload)
 
 	if err != nil {
-		print(err)
+		return err
 	}
 
 	var response entity.ResponseInternal
 
 	websocket.JSON.Receive(c.conn, &response)
 
-	go readClientMessage(ctx, c.conn, channel)
+	go readClientMessage(ctx, c.conn, tradeChannel)
 
 	return nil
 }
@@ -89,7 +87,7 @@ func readClientMessage(ctx context.Context, conn *websocket.Conn, incomingMessag
 				log.Printf("failed closing ws connection: %s", err)
 			}
 		default:
-			var message Response
+			var message response
 
 			err := websocket.JSON.Receive(conn, &message)
 			if err != nil {

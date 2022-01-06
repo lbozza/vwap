@@ -2,10 +2,10 @@ package usecase
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/lbozza/vwap/entity"
 	"github.com/lbozza/vwap/usecase/vwap"
+	"github.com/pkg/errors"
 )
 
 type Service struct {
@@ -28,13 +28,13 @@ func (s *Service) Execute() {
 
 		price, err := vwap.ParseFloat(data.Price)
 		if err != nil {
-			log.Printf("error parsing price to float")
+			errors.Wrap(err, "error parsing price to float")
 		}
 
 		volume, err := vwap.ParseFloat(data.Size)
 
 		if err != nil {
-			log.Printf("error parsing volume to float")
+			errors.Wrap(err, "error parsing volume to float")
 		}
 
 		vwapValue := s.VwapCalculator.Calculate(vwap.DataPoint{

@@ -71,10 +71,7 @@ func (l *DataPointList) getOldestPriceAndVolume(d DataPoint) (oldestPrice, oldes
 		l.Position = 0
 	}
 
-	//	fmt.Println("Index is: ", l.Position)
 	oldest := l.DataPoints[l.Position]
-	//	fmt.Println("OLDEST IS: ", oldest)
-	//	fmt.Println("NEW TRADE IS: ", d)
 
 	if &oldest != nil {
 		oldestPrice, oldestVolume = oldest.Price, oldest.Volume
