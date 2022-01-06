@@ -1,0 +1,18 @@
+mode: set
+github.com/lbozza/vwap/usecase/vwap/vwap.go:24.41,33.2 1 1
+github.com/lbozza/vwap/usecase/vwap/vwap.go:35.55,38.42 2 1
+github.com/lbozza/vwap/usecase/vwap/vwap.go:42.2,45.47 3 1
+github.com/lbozza/vwap/usecase/vwap/vwap.go:61.2,64.29 3 1
+github.com/lbozza/vwap/usecase/vwap/vwap.go:71.2,73.32 2 1
+github.com/lbozza/vwap/usecase/vwap/vwap.go:38.42,40.3 1 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:45.47,56.3 7 1
+github.com/lbozza/vwap/usecase/vwap/vwap.go:56.8,59.3 2 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:64.29,66.3 1 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:77.101,79.29 1 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:83.2,88.20 5 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:92.2,95.34 3 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:79.29,81.3 1 0
+github.com/lbozza/vwap/usecase/vwap/vwap.go:88.20,90.3 1 0
+github.com/lbozza/vwap/usecase/vwap/utils.go:5.47,9.16 3 1
+github.com/lbozza/vwap/usecase/vwap/utils.go:12.2,12.19 1 1
+github.com/lbozza/vwap/usecase/vwap/utils.go:9.16,11.3 1 0
