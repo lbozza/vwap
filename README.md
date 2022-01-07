@@ -65,3 +65,9 @@ Running tests
 `````make test-cov`````
 
 The tests will be ran and two files will be generated, one called cover.txt and one called cover.html, you can open the cover.html on your browser to check the coverage of the code by the unit tests.
+
+### To DO
+
+ - Use Decimal Instead of using math/big Float for storing the price and volume of the tradings. The use of Decimal would make it easier to convert from string to number.
+ - Handle the routine errors in a better way in case of failure connecting to the websocket or reading the data from the subscription.
+ 

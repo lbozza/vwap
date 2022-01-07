@@ -43,7 +43,7 @@ func main() {
 			shutdown(wg)
 			return
 		case err := <-fatalErrors:
-			close(fatalErrors)
+			shutdown(wg)
 			log.Fatal("Error: ", err)
 		}
 	}
