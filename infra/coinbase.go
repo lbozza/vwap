@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/lbozza/vwap/entity"
 	"golang.org/x/net/websocket"
@@ -42,7 +41,7 @@ func NewClient() (Client, error) {
 
 	if err != nil {
 		fmt.Printf("Dial failed: %s\n", err.Error())
-		os.Exit(1)
+		return Client{}, err
 	}
 
 	return Client{
