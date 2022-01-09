@@ -70,4 +70,5 @@ The tests will be ran and two files will be generated, one called cover.txt and 
 
  - Use Decimal Instead of using math/big Float for storing the price and volume of the tradings. The use of Decimal would make it easier to convert from string to number.
  - Handle the routine errors in a better way in case of failure connecting to the websocket or reading the data from the subscription.
+ - Implement integration tests for the infra and service layer
  
