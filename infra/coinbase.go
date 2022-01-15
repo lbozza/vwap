@@ -60,9 +60,13 @@ func (c *Client) Subscribe(ctx context.Context, pairs []string, tradeChannel cha
 		},
 	}
 
-	payload, _ := json.Marshal(subscription)
+	payload, err := json.Marshal(subscription)
 
-	err := websocket.Message.Send(c.conn, payload)
+	if err != nil {
+		fatalErrors <- err
+	}
+
+	err = websocket.Message.Send(c.conn, payload)
 
 	if err != nil {
 		fatalErrors <- err

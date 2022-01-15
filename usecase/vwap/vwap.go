@@ -16,8 +16,6 @@ type Calculator struct {
 	DataPoints        []DataPoint
 	SumVolumeAndPrice *big.Float
 	SumVolume         *big.Float
-	Position          int
-	MaxSize           int
 }
 
 func NewVwapCalculator() *Calculator {
@@ -25,8 +23,6 @@ func NewVwapCalculator() *Calculator {
 		DataPoints:        []DataPoint{},
 		SumVolumeAndPrice: new(big.Float),
 		SumVolume:         new(big.Float),
-		Position:          0,
-		MaxSize:           maxDataPointSize,
 	}
 
 }

@@ -10,14 +10,12 @@ import (
 
 type Service struct {
 	responseChannel chan entity.ResponseInternal
-	ProductID       string
 	VwapCalculator  vwap.Calculator
 }
 
-func NewService(responseChannel chan entity.ResponseInternal, productID string, vwapCalculator vwap.Calculator) *Service {
+func NewService(responseChannel chan entity.ResponseInternal, vwapCalculator vwap.Calculator) *Service {
 	return &Service{
 		responseChannel: responseChannel,
-		ProductID:       productID,
 		VwapCalculator:  vwapCalculator,
 	}
 }

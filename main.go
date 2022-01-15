@@ -62,7 +62,7 @@ func initialize(ctx context.Context, pair string, wg *sync.WaitGroup, fatalError
 
 	vwapCalc := vwap.NewVwapCalculator()
 	tradeChannel := make(chan entity.ResponseInternal)
-	service := usecase.NewService(tradeChannel, pair, *vwapCalc)
+	service := usecase.NewService(tradeChannel, *vwapCalc)
 
 	go handler.Subscribe(ctx, []string{pair}, tradeChannel, fatalErrors)
 	go service.Execute()
